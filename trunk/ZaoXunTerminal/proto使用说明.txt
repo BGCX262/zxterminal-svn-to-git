@@ -1,0 +1,7 @@
+1,先定义proto文件，参考msg.proto
+2，编译proto文件，生成代码
+    java：protoc.exe --java_out=./ msg.proto
+    c++: protoc.exe --cpp_out=./ msg.proto
+3,使用msg.java或者msg.ph.h和msg.ph.cpp
+    CRegisterRequest req= CRegisterRequest.newBuilder().setdeviceid("11111111").build();
+	

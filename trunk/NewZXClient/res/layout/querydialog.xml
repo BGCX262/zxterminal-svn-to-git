@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="35dp"
+    android:paddingBottom="35dp"
+    android:orientation="horizontal" >
+    <View 
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        />
+    <Button 
+        android:id="@+id/btn_production"
+        android:text="@string/production"
+        style="@style/QueryDialogButton"
+        />
+    <View 
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        />
+    <Button 
+        android:id="@+id/btn_distance"
+        android:text="@string/distance"
+        style="@style/QueryDialogButton"
+        />
+    <View 
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        />
+    <Button 
+        android:id="@+id/btn_times"
+        android:text="@string/times"
+        style="@style/QueryDialogButton"
+        />
+    <View 
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        />
+
+</LinearLayout>

@@ -1,0 +1,543 @@
+package zaoxun;
+
+enum MessageType 
+{ 
+	LOGIN_REQUEST = 1; 
+	LOGIN_RESPONSE = 2; 
+	CHECK_REQUEST = 3; 
+	CHECK_RESPONSE = 4; 
+	OIL_QUANTITY_REQUEST = 5; 
+	OIL_QUANTITY_RESPONSE = 6; 
+	PRODUCTION_REQUEST = 7; 
+	PRODUCTION_RESPONSE = 8; 
+	DISTANCE_REQUEST = 9; 
+	DISTANCE_RESPONSE = 10; 
+	TIMES_REQUEST = 11; 
+	TIMES_RESPONSE = 12; 
+	OILING_REQUEST = 13; 
+	OILING_RESPONSE = 14; 
+	LOAD_REQUEST = 15;
+	LOAD_RESPONSE = 16;
+	UNLOAD_REQUEST = 17;
+	UNLOAD_RESPONSE = 18;
+	
+	SPEED_LIMIT = 19; 
+	SHORT_MESSAGE = 20; 
+	GPS_DATA = 21; 
+	AUDIO_FILE_DATA = 22; 
+	CAPTURE_FILE_DATA = 23; 	
+	MATERIALS_NOTIFICATION = 24;
+	ANTI_COLLISION_NOTIFICATION = 25;
+	EDIPPERINFO_NOTIFICATION = 26;
+	
+	GET_EDIPPERS_REQUEST = 27;
+	GET_EDIPPERS_RESPONSE = 28;
+	LOAD_COMPLETE_REQUEST = 29;
+	LOAD_COMPLETE_RESPONSE = 30;
+	CANCEL_LOAD_REQUEST = 31;
+	CANCEL_LOAD_RESPONSE = 32;
+	REJECT_LOAD_REQUEST = 33;
+	REJECT_LOAD_RESPONSE = 34;
+	
+	EXIT_NOTIFICATION = 35;
+	DEVICE_STATUS_REQUEST = 36;
+	
+	MATERIALS_REQUEST = 37;
+	MATERIALS_RESPONSE = 38;
+	
+	COMMAND_REQUEST = 39;
+	
+	PRODUCTION_INFO_REQUEST = 40;
+	PRODUCTION_INFO_RESPONSE = 41;
+	
+	FUEL_REQUEST = 42;
+	FUEL_RESPONSE = 43;
+	
+	HEART_BEAT = 44;
+	
+	TARGET_NOTIFICATION = 45;
+	
+	DEVICE_STATUS_RESPONSE = 46;
+	COMMAND_RESPONSE = 47;
+	
+	MANUAL_LOAD_COMPLETE_REQUEST = 48;
+	MANUAL_LOAD_COMPLETE_RESPONSE = 49;
+	
+	MANUAL_UNLOAD_REQUEST = 50;
+	MANUAL_UNLOAD_RESPONSE = 51;
+}
+
+enum CarType
+{
+	MINE_CAR = 1;
+	E_DIPPER = 2;
+	OIL_CAR = 3;
+	WATER_CAR = 4;
+	OTHER_CAR = 5;
+}
+
+enum RunningStatus
+{
+	RUNNING = 1;
+	CLOSED = 2;
+	UNKNOWN = 3;
+}
+
+message LoginRequest
+{
+    optional string device_id = 1;
+}
+
+message LoginResponse
+{
+		optional string device_id = 1;
+    optional int32 result = 2;
+    optional CarType type = 3;
+    optional string car_no = 4;
+    optional RunningStatus run_status = 5;
+    optional int32 material_id = 6;
+    optional string material_name = 7;
+}
+
+message CheckRequest
+{
+    optional string device_id = 1;
+}
+
+message CheckResponse
+{
+    optional string device_id = 1;
+    optional int32  driver_id = 2;
+    optional string  driver_name = 3;
+    optional double  speed_limit = 4;
+    optional int32 status = 5;
+}
+
+message OilQuantityRequest
+{
+    optional string device_id = 1;
+}
+
+message OilQuantityResponse
+{
+    optional string device_id = 1;
+    optional double quantity = 3;
+}
+
+message ProductionRequest
+{
+    optional string device_id = 1;
+    optional int32 period = 2;
+}
+
+message ProductionResponse
+{
+    optional string device_id = 1;
+    optional int32 period = 2;
+    optional double quantity = 3;
+}
+
+message DistanceRequest
+{
+    optional string device_id = 1;
+    optional int32 period = 2;
+}
+
+message DistanceResponse
+{
+    optional string device_id = 1;
+    optional int32 period = 2;
+    optional double distance = 3;
+}
+
+message TimesRequest
+{
+    optional string device_id = 1;
+    optional int32 period = 2;
+}
+
+message TimesResponse
+{
+    optional string device_id = 1;
+    optional int32 period = 2;
+    optional int32 times = 3;
+}
+
+message OilingRequest
+{
+    optional string device_id = 1;
+    optional string target = 2;
+    optional double volume = 3;
+}
+
+message OilingResponse
+{
+		optional string device_id = 1;
+		optional string target = 2;
+    optional double volume = 3;
+    optional int32 result = 4;
+}
+
+message LoadRequest
+{
+    optional string device_id = 1;
+    optional string edipper_device_id = 2;
+    optional string car_no = 3;
+}
+
+message LoadResponse
+{
+		optional string device_id = 1;
+    optional string edipper_device_id = 2;
+    optional int32 material_id = 3;
+    optional string material_name = 4;
+    optional int32 result = 5;
+}
+
+message UnloadRequest
+{
+    optional string device_id = 1;
+    optional string edipper_device_id = 2;
+}
+
+message UnloadResponse
+{
+		optional string device_id = 1;
+    optional int32 result = 2;
+}
+
+message ManualUnloadRequest
+{
+    optional string device_id = 1;
+    optional string edipper_device_id = 2;
+    optional int32 material_id = 3;
+}
+
+message ManualUnloadResponse
+{
+		optional string device_id = 1;
+		optional string edipper_device_id = 2;
+		optional int32 material_id = 3;
+    optional int32 result = 4;
+}
+
+message SpeedLimitMessage
+{
+    optional string device_id = 1;
+    optional double speed = 2;
+}
+
+message ShortMessage
+{
+    optional string device_id = 1;
+		optional string dest_device = 2;
+    optional string content = 3;
+}
+
+message GPSData
+{
+    optional string device_id = 1;
+    optional string time = 2;
+    optional string latitude = 3;
+    optional string longitude = 4;
+    optional string speed = 5;
+    optional string elevation = 6;
+    optional string direction = 7;
+    optional string radius = 8;
+    optional string loctype = 9;
+    optional string addrstr = 10;
+    optional string province = 11;
+    optional string city = 12;
+    optional string district = 13;
+    optional string poi = 14;
+}
+
+message AudioFileData
+{
+    optional string device_id = 1;
+		optional string time = 2;
+    optional string file_name = 3;
+		optional string dest_device = 4;
+    optional int32 total_packets = 5;
+    optional int32 current_packet = 6;
+    optional int32 data_len = 7;
+    optional bytes data = 8;
+}
+
+message CaptureFileData
+{
+    optional string device_id = 1;
+		optional string time = 2;
+    optional string file_name = 3;
+    optional int32 total_packets = 4;
+    optional int32 current_packet = 5;
+    optional int32 data_len = 6;
+    optional bytes data = 7;
+}
+
+message MaterialsRequest
+{
+		optional string device_id = 1;
+}
+
+message Material
+{
+		optional int32 material_id = 1;
+		optional string english_name = 2;
+    optional string chinese_name = 3;
+}
+
+message MaterialsResponse
+{
+		repeated Material material = 1;
+}
+
+message MaterialsNotification
+{
+		repeated Material material = 1;
+}
+
+message CollisionCarInfo
+{
+		optional string device_id = 1;
+    optional CarType type = 2;
+    optional string car_no = 3;
+    optional int32 level = 4;
+    optional double distance = 5;
+    optional double longitude = 6;
+    optional double latitude = 7;
+}
+
+message AntiCollisionNotification
+{
+		repeated double angle = 1;
+}
+
+message EDipperInfo
+{
+		optional string device_id = 1;
+		optional string device_no = 2;
+    optional double longitude = 3;
+    optional double latitude = 4;
+}
+
+message EDipperInfoNotification
+{
+		repeated EDipperInfo infos = 1;
+}
+
+message GetEDippersRequest
+{
+	optional string device_id = 1;
+}
+
+message GetEDippersResponse
+{
+	optional string device_id = 1;
+	repeated EDipperInfo edippers = 2;
+}
+
+message LoadCompleteRequest
+{
+	optional string edipper_device_id = 1;
+	optional string car_device_id = 2;
+	optional int32 load_result = 3;
+}
+
+message LoadCompleteResponse
+{
+	optional string edipper_device_id = 1;
+	optional string car_device_id = 2;
+	optional int32 result = 3;
+}
+
+message ManualLoadCompleteRequest
+{
+	optional string edipper_device_id = 1;
+	optional string car_device_id = 2;
+	optional int32 material_id = 3;
+	optional int32 load_result = 4;
+}
+
+message ManualLoadCompleteResponse
+{
+	optional string edipper_device_id = 1;
+	optional string car_device_id = 2;
+	optional int32 material_id = 3;
+	optional int32 result = 4;
+}
+
+message CancelLoadRequest
+{
+	optional string car_device_id = 1;
+	optional string edipper_device_id = 2;
+}
+
+message CancelLoadResponse
+{
+	optional string car_device_id = 1;
+	optional string edipper_device_id = 2;
+	optional int32 result = 3;
+}
+
+message RejectLoadRequest
+{
+	optional string edipper_device_id = 1;
+	optional string car_device_id = 2;
+}
+
+message RejectLoadResponse
+{
+	optional string edipper_device_id = 1;
+	optional string car_device_id = 2;
+	optional int32 result = 3;
+}
+
+message ExitNotification
+{
+	optional string device_id = 1;
+	optional int32 exit_type = 2;
+}
+
+message DeviceStatusRequest
+{
+	optional string device_id = 1;
+	optional RunningStatus status = 2;
+	optional int32 type = 3;
+	optional int32 update_time = 4;
+}
+
+message DeviceStatusResponse
+{
+	optional string device_id = 1;
+	optional int32 result = 2;
+	optional int32 update_time = 3;
+}
+
+message CommandRequest
+{
+		optional string device_id = 1;
+		optional int32 cmd_id = 2;
+		optional int32 type = 3;
+		optional string time = 4;
+    optional string content = 5;
+}
+
+message CommandResponse
+{
+		optional string device_id = 1;
+		optional int32 cmd_id = 2;
+		optional int32 result = 3;
+}
+
+message ProductionInfoRequest
+{
+    optional string device_id = 1;
+}
+
+message ProductionInfoResponse
+{
+    optional string device_id = 1;
+    optional int32 times = 2;
+    optional double distance = 3;
+    optional double ton = 4;
+    optional double fill = 5;
+    optional double temp = 6;
+}
+
+message FuelRequest
+{
+    optional string device_id = 1;
+    optional string target_device_name = 2;
+    optional double volume = 3;
+    optional int32 type = 4;
+    optional int32 mode = 5;
+}
+
+message FuelResponse
+{
+    optional string device_id = 1;
+    optional string target_device_name = 2;
+    optional double volume = 3;
+    optional int32 result = 4;
+}
+
+message HeartBeat
+{
+    optional int32 value = 1;
+}
+
+message TargetNotification
+{
+		optional string device_id = 1;
+    optional double longitude = 2;
+    optional double latitude = 3;
+}
+
+message CommonMessage
+{
+	optional MessageType type = 1;
+	optional LoginRequest login_request = 2;
+	optional LoginResponse login_response = 3;
+	optional CheckRequest check_request = 4;
+	optional CheckResponse check_response = 5;
+	optional OilQuantityRequest oil_quantity_request = 6;
+	optional OilQuantityResponse oil_quantity_response = 7;
+	optional ProductionRequest production_request = 8;
+	optional ProductionResponse production_response = 9;
+	optional DistanceRequest distance_request = 10; 
+	optional DistanceResponse distance_response = 11; 
+	optional TimesRequest times_request = 12; 
+	optional TimesResponse times_response = 13; 
+	optional OilingRequest oiling_request = 14; 
+	optional OilingResponse oiling_response = 15; 
+	optional LoadRequest load_request = 16;
+	optional LoadResponse load_response = 17;
+	optional UnloadRequest unload_request = 18;
+	optional UnloadResponse unload_response = 19;
+	
+	optional SpeedLimitMessage speed_limit = 20;
+	optional ShortMessage short_message = 21;
+	optional GPSData gps_data = 22;
+	optional AudioFileData audio_file_data = 23;
+	optional CaptureFileData capture_file_data = 24;
+	optional MaterialsNotification materials_notification = 25;
+	optional AntiCollisionNotification anticollision_notification = 26;
+	optional EDipperInfoNotification edipperinfo_notification = 27;
+	
+	optional GetEDippersRequest get_edippers_request = 28;
+	optional GetEDippersResponse get_edippers_response = 29;
+	optional LoadCompleteRequest load_complete_request = 30;
+	optional LoadCompleteResponse load_complete_response = 31;
+	
+	optional CancelLoadRequest cancel_load_request = 32;
+	optional CancelLoadResponse cancel_load_response = 33;
+	optional RejectLoadRequest reject_load_request = 34;
+	optional RejectLoadResponse reject_load_response = 35;
+	
+	optional ExitNotification exit_notification = 36;
+	optional DeviceStatusRequest device_status_request = 37;
+	
+	optional MaterialsRequest materials_request = 38;
+	optional MaterialsResponse materials_response = 39;
+	
+	optional CommandRequest command_request = 40;
+	
+	optional ProductionInfoRequest production_info_request = 41;
+	optional ProductionInfoResponse production_info_response = 42;
+	
+	optional FuelRequest fuel_request = 43;
+	optional FuelResponse fuel_response = 44;
+	
+	optional HeartBeat heart_beat = 45;
+	
+	optional TargetNotification target_notification = 46;
+	
+	optional DeviceStatusResponse device_status_response = 47;
+	optional CommandResponse command_response = 48;
+	
+	optional ManualLoadCompleteRequest manual_load_complete_request = 49;
+	optional ManualLoadCompleteResponse manual_load_complete_response = 50;
+	optional ManualUnloadRequest manual_unload_request = 51;
+	optional ManualUnloadResponse manual_unload_response = 52;
+}

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:padding="@dimen/topbar_space">
+    <LinearLayout  
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/topbar_space"
+        android:gravity="bottom"
+        android:background="@drawable/shape_tool_bar_bg"
+        android:orientation="horizontal" >
+
+         <LinearLayout
+                android:layout_width="@dimen/output_width"
+                android:layout_height="@dimen/output_height"
+                android:layout_marginRight="@dimen/view_space"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="物料"
+                    android:background="@drawable/textview_corner_up"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/units_size"
+                    android:gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/tv_material"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/textview_corners_down"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textSize="@dimen/output_size"
+                    />
+            </LinearLayout>
+
+        <TextView
+            android:id="@+id/limitedspeed"
+            android:layout_marginRight="@dimen/view_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/speedlimited"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="@dimen/limitedspeed_textsize"/>
+        
+       <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+           
+            <TextView
+                 android:id="@+id/speed_tv"
+                 android:layout_width="110dp"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="bottom"
+                 android:gravity="right"
+                 android:textColor="@color/white"
+                 android:textStyle="bold"
+                 android:textSize="@dimen/speed_textsize" 
+                  />
+
+            <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/km_h"
+                 android:textColor="@color/white"
+                 android:layout_gravity="bottom"
+                 android:gravity="bottom"
+                 android:textSize="@dimen/km_h_textsize" 
+                 android:layout_marginRight="@dimen/view_space" />
+        </LinearLayout>
+
+        <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom"
+             android:layout_marginRight="@dimen/view_space"
+             android:orientation="vertical" >
+
+            <TextView
+                  android:id="@+id/date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/white"
+                  android:textStyle="bold"
+                  android:textSize="@dimen/date_textsize" />
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/time_textsize" />
+        </LinearLayout>
+
+        <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom"
+             android:layout_marginRight="@dimen/view_space"
+             android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/net"
+                    android:layout_marginRight="@dimen/icon_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/serveroff"
+                    />
+
+                <ImageView
+                    android:id="@+id/sat"
+                    android:layout_marginRight="@dimen/icon_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/gpson"
+                    />
+
+                <ImageView
+                    android:id="@+id/gprs"
+                    android:layout_marginRight="@dimen/icon_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                     />
+
+                <ImageButton
+                    android:id="@+id/recode"
+                    android:layout_marginRight="@dimen/icon_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/transparent"
+                     />
+
+                <ImageView
+                    android:id="@+id/play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/gps_textsize"
+                    android:text="@string/gps"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="@dimen/gps_space"
+                    android:textSize="@dimen/gps_textsize"
+                    android:text="@string/colon" />
+
+                <TextView
+                    android:id="@+id/lat_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/gps_space"
+                    android:textSize="@dimen/gps_textsize"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/lon_tv"
+                    android:textSize="@dimen/gps_textsize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--  <ImageButton
+            android:id="@+id/query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/transparent"
+            android:src="@drawable/output" />-->
+
+        <LinearLayout
+                android:layout_width="@dimen/output_width"
+                android:layout_height="@dimen/output_height"
+                android:orientation="vertical"
+                >
+            <TextView
+                    android:id="@+id/units"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="产量"
+                    android:background="@drawable/textview_corner_up"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/units_size"
+                    android:gravity="center"
+                    />
+            <TextView
+                    android:id="@+id/output"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/textview_corners_down"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="45t"
+                    android:textSize="@dimen/output_size"
+                    />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

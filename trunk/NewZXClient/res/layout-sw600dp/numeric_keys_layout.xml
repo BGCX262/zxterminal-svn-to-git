@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@color/num_bg"
+    android:padding="15dp"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip" >
+
+        <ImageView
+            android:id="@+id/one_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:tag="1"
+            android:src="@drawable/one_icon_selector" />
+
+        <ImageView
+            android:id="@+id/two_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:tag="2"
+            android:src="@drawable/two_icon_selector" />
+
+        <ImageView
+            android:id="@+id/three_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:tag="3"
+            android:src="@drawable/three_icon_selector" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" >
+
+        <ImageView
+            android:id="@+id/four_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:tag="4"
+            android:src="@drawable/four_icon_selector" />
+
+        <ImageView
+            android:id="@+id/five_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:tag="5"
+            android:src="@drawable/five_icon_selector" />
+
+        <ImageView
+            android:id="@+id/six_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:tag="6"
+            android:src="@drawable/six_icon_selector" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/seven_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:tag="7"
+            android:src="@drawable/seven_icon_selector" />
+
+        <ImageView
+            android:id="@+id/eight_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:tag="8"
+            android:src="@drawable/eigth_icon_selector" />
+
+        <ImageView
+                android:id="@+id/nine_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:tag="9"
+                android:src="@drawable/nine_icon_selector" />
+             
+    </RelativeLayout>
+    
+     <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+         >
+
+        <ImageView
+            android:id="@+id/zero_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:tag="0"
+            android:src="@drawable/zero_icon_selector" />
+
+
+        <ImageView
+            android:id="@+id/ok_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="LoginEvent"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ok_icon_selector" />
+    </RelativeLayout>
+    
+
+</LinearLayout>

@@ -1,0 +1,65 @@
+!Workspace
+!Version 600
+!Charset WindowsSimpChinese
+Open Table "build" As build Interactive
+Open Table "usertree" As usertree Interactive
+Open Table "房子" As 房子 Interactive
+Open Table "超速25" As 超速25 Interactive
+Open Table "盲区提醒" As 盲区提醒 Interactive
+Select *  from build  into Query1 noselect  
+Select *  from build  into Query2 noselect  
+Map From 盲区提醒,超速25,房子,build,usertree 
+  Position (0.0520833,0.0520833) Units "in"
+  Width 7.25 Units "in" Height 4.60417 Units "in" 
+Set Window FrontWindow() ScrollBars Off Autoscroll On
+Set Map
+  CoordSys Earth Projection 1, 0
+  Center (115.8022636,29.68426905)
+  Zoom 3.204401821 Units "km"
+  Preserve Zoom Display Zoom
+  Distance Units "km" Area Units "sq km" XY Units "degree"
+Set Map
+  Layer 1
+    Display Graphic
+    Global   Symbol (35,0,12)   
+    Label Line Arrow Position Right Font ("Arial",0,12,0) Pen (1,2,0) 
+      With 盲区提醒
+      Parallel On Auto Off Overlap Off Duplicates On Offset 2
+      Visibility On
+  Layer 2
+    Display Graphic
+    Global   Symbol (35,0,12)   
+    Label Line Arrow Position Right Font ("Arial",0,12,0) Pen (1,2,0) 
+      With 超速25
+      Parallel On Auto Off Overlap Off Duplicates On Offset 2
+      Visibility On
+  Layer 3
+    Display Graphic
+    Global   Symbol (35,0,12)   
+    Label Line Arrow Position Right Font ("Arial",0,12,0) Pen (1,2,0) 
+      With 房子
+      Parallel On Auto Off Overlap Off Duplicates On Offset 2
+      Visibility On
+  Layer 4
+    Display Graphic
+    Global   Symbol (35,0,12)   
+    Label Line Arrow Position Right Font ("Arial",0,12,0) Pen (1,2,0) 
+      With build
+      Parallel On Auto On Overlap Off Duplicates On Offset 2
+      Visibility On
+   Object 32 Text "2号排土场" 
+  Layer 5
+    Display Graphic
+    Global   Symbol (35,0,12)   
+    Label Line None Position Center Font ("Arial",0,12,0) Pen (1,2,0) 
+      With usertree
+      Parallel On Auto On Overlap Off Duplicates On Offset 2
+      Visibility On
+Set Map Layer 1 Editable
+Set Window FrontWindow() Printer
+ Name "AGFA-AccuSet v52.3" Orientation Portrait Copies 1
+ Papersize 9
+Dim WorkspaceMaximizedWindow As Integer
+WorkspaceMaximizedWindow = Frontwindow()
+Set Window WorkspaceMaximizedWindow Max
+Undim WorkspaceMaximizedWindow

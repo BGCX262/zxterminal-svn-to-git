@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/webviewFrameLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:orientation="vertical"
+    android:background="@color/main_bg">
+    <com.feihong.newzxclient.widget.DrawLineWebView
+        android:id="@+id/webview"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        />
+    <include layout="@layout/topbar" />
+    <RelativeLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         >
+            
+		<GridLayout   
+		    android:layout_marginLeft="@dimen/three_image_space"
+		    android:layout_marginTop="@dimen/first_image_top"
+		    android:layout_width="wrap_content"  
+		    android:layout_height="wrap_content"  
+	
+		    android:orientation="horizontal"  
+		    android:rowCount="3"  
+		    android:columnCount="2"
+		    android:id="@+id/rootGrid" >  
+		</GridLayout>  
+
+         <ImageView 
+             android:id="@+id/quit"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:layout_alignParentRight="true"
+             android:layout_marginRight="@dimen/oil_space"
+             android:src="@drawable/quit_selector"
+             android:onClick="true"
+             android:visibility="visible"
+             />
+<!--          <com.feihong.newzxclient.widget.OilView
+             android:id="@+id/oil_view"
+             android:layout_alignRight="@id/quit"
+             android:layout_marginBottom="@dimen/oil_space"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_above="@id/quit"
+             android:src="@drawable/oil_bg"
+             ></com.feihong.newzxclient.widget.OilView>
+         <ImageView 
+             android:id="@+id/oil_flag"
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:layout_toLeftOf="@id/oil_view"
+             android:layout_marginRight="@dimen/oil_space"
+             android:layout_alignBottom="@id/oil_view"
+             android:src="@drawable/oil_flag"/> -->
+        </RelativeLayout>
+
+</FrameLayout>

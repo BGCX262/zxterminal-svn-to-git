@@ -1,0 +1,739 @@
+API Hook是什么我就不多说了，直接进入正题。API Hook技术主要有下面的技术难点：
+
+1. 如何将自己的的代码Inject到其他进程
+
+2. 如何Hook到API 
+1.1 代码的Injection
+
+常用的方法有：
+
+1. 使用注册表HKLM\Software\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs
+
+
+这种方法可以指定多个DLL，用空格隔开。这些DLL会被任何用到User32.dll的所有程序自动加载。当User32.dll加载的时候，User32.dll的DllMain会收到一个DLL_PROCESS_ATTACH通知，User32在这个时候读取注册表项中的值，调用LoadLibrary加载各个DLL。
+
+显然使用这种方法要求设置注册表之后立刻重起系统，不过一般情况下这不是大问题。这种方法的主要问题在于，只有用到User32.dll的应用程序才会被Inject。所有的GUI和少部分CUI程序会用到User32.dll，所以如果你的API Hook程序不打算监视CUI程序的话，那么可能问题并不太大。但是如果你的API Hook程序需要监视系统中所有进程的话，这种方法的限制将是非常致命的。
+
+
+2. 调用SetWindowsHookEx(WH_GETMESSAGE, …, 0)
+
+
+可以使用SetWindowsHookEx(WH_GETMESSAGE, …, 0) 设置全局的消息钩子，虽然可能你的程序并不用到消息钩子，但是钩子的一个副作用是会将对应的DLL加载到所有的GUI线程之中。类似的，只有用到GUI的进程才会被挂接。虽然有这种限制，这种方法仍然是最常用的挂接进程的方法。
+
+
+3. 使用CreateRemoteThread函数在目标进程中创建远程线程
+
+
+这种方法可以在任意的目标进程中创建一个远程线程，远程线程中可以执行任意代码，这样便可以做到把我们的代码Inject到目标进程中。这种方法具有最大的灵活性，但是难度也最高：
+
+a) 远程线程代码必须可以自重定位
+
+b) 要能够监视进程的启动和结束，这样才可以挂接到所有进程
+
+这两个问题都是可以解决的，在本文中我将重点讲述如何创建远程线程和解决这两个问题。
+
+
+4. 如果你只是要挂接某个特定进程的并且情况允许你自己来创建此进程，你可以调用CreateProcess(…, CREATE_SUSPENDED)创建子进程并暂停运行，然后修改入口代码使之调用LoadLibrary加载自己的DLL。该方法在不同CPU之间显然是无法移植的。
+1.2 Hook API
+
+常用的方法有：
+
+1. 找到API函数在内存中的地址，改写函数头几个字节为JMP指令跳转到自己的代码，执行完毕再执行API开头几个字节的内容再跳回原地址。这种方法对CPU有较大的依赖性，而且在多线程环境下可能出问题，当改写函数代码的时候有可能此函数正在被执行，这样做可能导致程序出错。
+
+2. 修改PE文件的IAT (Import Address Table)，使之指向自己的代码，这样EXE/DLL在调用系统API的时候便会调用你自己的函数
+
+
+2 PE文件结构和输入函数
+
+Windows9x、Windows NT、Windows 2000/XP/2003等操作系统中所使用的可执行文件格式是纯32位PE（Portable Executable）文件格式，大致如下：
+
+
+
+
+文件中数据被分为不同的节（Section）。代码(.code)、初始化的数据（.idata），未初化的数据（.bss）等被按照属性被分类放到不同的节中，每个节的属性和位置等信息用一个IMAGE_SECTION_HEADER结构来描述。所有的这些IMAGE_SECTION_HEADER结构组成一个节表（Section Table），这个表被放在所有节数据的前面。由于数据按照属性被放在不同的节中，那么不同用途但是属性相同的数据可能被放在同一个节中，因此PE文件中还使用IMAGE_DATA_DIRECTORY数据目录结构来指明这些数据的位置。数据目录和其他描述文件属性的数据和在一起称为PE文件头。PE文件头被放在节和节表的前面。PE文件中的数据位置使用RVA（Relative Virtual Address）来表示。RVA指的是相对虚拟地址，也就是一个偏移量。当PE文件被装入内存中的时候，Windows把PE文件装入到某个特定的位置，称为映像基址（Image Base）。而某个RVA值表示某个数据在内存中相对于映像基址的偏移量。
+
+输入表（Import Table）是来放置输入函数（Imported functions）的一个表。输入函数就是被程序调用的位于外部DLL的函数，这些函数称为输入函数。它们的代码位于DLL之中，程序通过引用其DLL来访问这些函数。输入表中放置的是这些函数的名称（或者序号）以及函数所在的DLL路径等有关信息。程序通过这些信息找到相应的DLL，从而调用这些外部函数。这个过程是在运行过程中发生的，因此属于动态链接。由于操作系统的API也是在DLL之中实现的，因此应用程序调用API也要通过动态连接。在程序的代码中，当需要调用API的时候，就执行类似下面语句：
+
+
+0040100E CALL 0040101A
+
+
+可以看到这是一个call语句。Call语句则调用下面的语句：
+
+
+0040101A JMP DWORD PTR [00402000]
+
+
+上面的代码称为桩代码（Stub code），jmp语句中的目标地址[00402000]才是API函数的地址。这段Stub code位于.lib输入库中。如果加以优化，那么调用代码是下面这样：
+
+
+XXXXXXXX CALL DWORD PTR [XXXXXXXX]
+
+
+其中[XXXXXXXX]指向IAT（Import Address Table）即输入地址表中的表项。表项中指定了API的目标地址。这是经过编译器优化过的调用方法，通常速度要比原来的CALL+JMP快一些。
+3 挂接API
+
+从上面的PE文件结构可知，当我们知道了IAT中的地址所在位置，便可以把原来的API 的地址修改为新的API的地址。这样，进程在调用API的时候就会调用我们所提供的新的API的地址。修改输入表可以通过调用ImageDirectoryEntryToData API函数得到内存中模块的输入表的地址：
+
+ULONG ulSize;
+
+PIMAGE_IMPORT_DESCRIPTOR pid = (PIMAGE_IMPORT_DESCRIPTOR)
+
+ImageDirectoryEntryToData(
+
+hModule,
+
+TRUE,
+
+IMAGE_DIRECTORY_ENTRY_IMPORT,
+
+&ulSize );
+
+
+这个函数返回一个IMAGE_IMPORT_DESCRIPTOR的指针，指向输入描述符数据。然后，遍历该描述符表通过比较DLL名称查找到相应的DLL所对应的IMAGE_IMPORT_DESCRIPTOR：
+
+// if this image has no import section, just simply return and do nothing
+
+if( pid == NULL )
+
+return;
+
+
+// find the corresponding item
+
+while( pid->Name )
+
+{
+
+// pid->Name contains the RVA addr of the module name string
+
+PSTR pszModName = (PSTR) ( (PBYTE)hModule + pid->Name );
+
+if( lstrcmpiA( pszModuleName, pszModName ) == 0 )
+
+{
+
+// found
+
+break;
+
+}
+
+
+pid++;
+
+}
+
+
+if( pid->Name == 0 )
+
+{
+
+// not found, just return
+
+return;
+
+}
+
+
+找到相应的DLL之后，遍历其IAT表，根据地址pfnCurrentFuncAddr找到相应的表项，修改之
+
+// get caller's import address table(IAT) for the callee's functions
+
+PIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA) ( (PBYTE)hModule + pid->FirstThunk );
+
+
+while( pThunk->u1.Function )
+
+{
+
+PROC *ppfnEntry = (PROC*) &(pThunk->u1.Function);
+
+
+if( *ppfnEntry == pfnCurrentFuncAddr )
+
+{
+
+// …
+
+// Modify IAT
+
+// …
+
+}
+
+
+pThunk++;
+
+}
+
+
+修改的时候，需要改变该块内存的保护为可读写，需要通过VirtualQuery获得内存的信息，然后通过VirtualProtectEx修改为可读写。之后可以通过WriteProcessMemory修改内存，修改完毕之后还要通过VirtualProtectEx再改回来。
+
+SIZE_T sBytesWritten;
+
+BOOL bProtectResult = FALSE;
+
+DWORD dwOldProtect = 0;
+
+  
+
+MEMORY_BASIC_INFORMATION memInfo;
+
+  
+
+if( ::VirtualQuery( ppfnEntry, &memInfo, sizeof( memInfo ) ) > 0 )
+
+{
+
+  
+
+// change the pages to read/write
+
+bProtectResult =
+
+::VirtualProtect(
+
+memInfo.BaseAddress,
+
+memInfo.RegionSize,
+
+PAGE_READWRITE,
+
+&dwOldProtect );
+
+  
+
+
+// then write it
+
+::WriteProcessMemory( ::GetCurrentProcess(),
+
+ppfnEntry, &pfnReplacementFuncAddr, sizeof( PROC * ), &sBytesWritten
+
+);
+
+  
+
+// restore the page to its old protect status
+
+bProtectResult =
+
+::VirtualProtect(
+
+memInfo.BaseAddress,
+
+memInfo.RegionSize,
+
+PAGE_READONLY,
+
+&dwOldProtect );
+
+}
+
+
+
+3 远程线程
+
+远程线程是Win2000以上才支持的技术。简单来讲，CreateRemoteThread函数会在其他进程中创建一个线程，执行指定的代码。因为这个线程并非在调用进程之中，而是在其他进程，因此称之为远程线程(Remote Thread)。CreateRemoteThread的原型如下：
+
+HANDLE WINAPI CreateRemoteThread(
+
+HANDLE hProcess,
+
+LPSECURITY_ATTRIBUTES lpThreadAttributes,
+
+SIZE_T dwStackSize,
+
+LPTHREAD_START_ROUTINE lpStartAddress,
+
+LPVOID lpParameter,
+
+DWORD dwCreationFlags,
+
+LPDWORD lpThreadId
+
+);
+
+
+虽然概念上非常简单，但是使用CreateRemoteThread还会有一些问题：
+
+1． lpStartAddress必须是其他进程的地址，但是我们又如何把代码放到另外一个进程中呢？幸运的是，有两个函数可以做到这一点：VirtualAllocEx和WriteProcessMemory，前者可以在指定进程中分配一块内存，WriteProcessMemory可以修改指定进程的代码。因此，先调用VirtualAllocEx在指定进程中分配内存，再调用WriteProcessMemory将代码写入到分配好的内存中，再调用CreateRemoteThread创建远程线程执行在事先准备好的代码。
+
+2． 此外，这些代码必须得是自重定位的代码。在解释自重定位之前，先解释一下什么是重定位。在程序访问数据的时候，必须得访问某个绝对地址，如：
+
+MOV EAX, DWORD PTR [00400120H]
+
+
+[00400120] 便是一个绝对地址。但是，由于程序实际上可以任意地址加载（这句话其实是不准确的，后面会解释），因此这个地址不可能是固定的，而是会在加载的时候改变的。假如程序在0x00400000地址加载，访问地址是0x00400120，那么如果程序在0x00800000加载的话，那么地址应该会变成0x00800120，否则便会访问到错误的地址。因此，有必要在程序加载的时候修正这些地址，这个工作是由Windows的PE Loader，也就是程序的加载器负责的。当编译连接的时候，在EXE/DLL中会保存那些地方的数据需要重定位，并把这些位置的RVA和数据本身的RVA保存在.reloc重定位节中，从而在加载的时候，PE Loader会自动检查重定位节的内容并在程序执行之前对这些数据进行修正。
+
+实际上，并非所有EXE/DLL都需要重定位。由于在单个地址空间中只有一个EXE，而这个EXE必然最先加载，因此这个EXE的加载地址总是不变的。因此，一般情况下EXE并不需要重定位信息，编译器一般在编译链接的时候会将EXE中的重定位信息去掉，以减少程序大小加快加载速度和运行速度。EXE一般在0x40000000的地址加载，一般没有特别原因无需修改。而DLL因为一般无法保证预先设置好的加载地址总能够满足。比如DLL可能指定在0x10000000地址加载，但是有可能此地址已经有其他DLL占据或者被EXE占据，DLL必须得在另外的地址加载，因此一般在DLL中总是保存重定位信息。
+
+一段代码，一般情况下无法在任意地址执行。假设我们有下面的代码：
+
+00400120 12h, 34h, 56h, 78h
+
+00400124 MOV EAX, DWORD PTR [00400120H]
+
+…
+
+
+如果我们手动把这段代码copy到另外一个地方，如00500000，那么显然00400120H这个地址需要被修改，我们当然可以仿照自重定位的方法来手动修改这个地址值，但是通常较简单的方法是写自重定位代码，这样的代码可以在任意地址执行，具体做法如下：
+
+call @F
+
+@@:
+
+pop ebx
+
+sub ebx,offset @B
+
+DATA db 12h, 34h, 56h, 78h
+
+MOV EAX, [EBX + DATA]
+
+
+可以看到，该段代码通过使用call指令压入当前地址eip并弹出从而得到当前地址。然后，用当前地址减去其标号的偏移量就得到重定位修正值，存入ebx之中。之后，就可以使用ebx作为一个基准来访问数据，以后访问数据可以用EBX + ???来访问，这样由于EBX会根据当前的地址值而变化，所以这段代码是自重定位的。
+
+下面给出一段代码，这段代码中的InjectRemoteCode函数负责将RemoteThread这个函数的自重定位代码Copy到其他进程中执行：
+
+;=============================================================================
+
+; RemoteThread.ASM
+
+; Author : ATField
+
+; Description :
+
+; This assembly file contains a InjectRemoteCode function
+
+; which injects remote code into a process
+
+; History :
+
+; 2004-3-8 Start
+
+; 2004-3-9 Completed and tested.
+
+; 2004-3-26 bug fix:
+
+; not all clients connected
+
+; Wait for completion of the remote thread
+
+;=============================================================================
+
+
+.386
+
+.MODEL FLAT, STDCALL ; must be stdcall here,
+
+; or link error will occur
+
+OPTION CASEMAP:NONE
+
+  
+
+  
+
+INCLUDE WINDOWS.INC
+
+INCLUDE USER32.INC
+
+INCLUDELIB USER32.LIB
+
+INCLUDE KERNEL32.INC
+
+INCLUDELIB KERNEL32.LIB
+
+;INCLUDE MACRO.INC
+
+
+
+.DATA
+
+hRemoteThread dd 0
+
+szKernel32 db 'Kernel32.dll',0
+
+hmodKernel32 dd 0
+
+szGetProcAddress db 'GetProcAddress',0
+
+szLoadLibraryA db 'LoadLibraryA',0
+
+lpRemoteCode dd 0
+
+lpGetProcAddress dd 0
+
+lpLoadLibraryA dd 0
+
+.CODE
+
+
+;=============================================================================
+
+; remote code starts here
+
+;=============================================================================
+
+REMOTE_CODE_START equ this byte
+
+
+;=============================================================================
+
+; data
+
+;=============================================================================
+
+lpRemoteGetProcAddress dd 0
+
+lpRemoteLoadLibraryA dd 0
+
+szRemoteDllPathName db 255 dup(0)
+
+lpRemoteDllHandle dd 0
+
+lpRemoteInitDll dd 0
+
+szRemoteInitDllFuncName db 'InitializeDll',0
+
+;=============================================================================
+
+
+RemoteThread PROC uses ebx lParam
+
+  
+
+;=====================================================================
+
+; relocation
+
+;=====================================================================
+
+; just for debug
+
+;int 3
+
+  
+
+call @F
+
+@@:
+
+pop ebx
+
+sub ebx,offset @B
+
+  
+
+; LoadLibraryA szRemoteDllPathName
+
+lea ecx, [ebx + offset szRemoteDllPathName]
+
+push ecx
+
+call [ebx + offset lpRemoteLoadLibraryA]
+
+  
+
+test eax, eax
+
+jz error
+
+  
+
+mov [ebx + offset lpRemoteDllHandle], eax
+
+; GetProcAddress hModule InitializeDll
+
+lea ecx, [ebx + offset szRemoteInitDllFuncName]
+
+push ecx ; 'InitializeDll'
+
+push [ebx + offset lpRemoteDllHandle] ; hmodule
+
+call [ebx + offset lpRemoteGetProcAddress]
+
+  
+
+test eax, eax
+
+jz error
+
+  
+
+; InitializeDll()
+
+call eax
+
+ret
+
+error:
+
+mov eax, -1
+
+ret
+
+RemoteThread endp
+
+
+REMOTE_CODE_END equ this byte
+
+REMOTE_CODE_LENGTH equ offset REMOTE_CODE_END - offset REMOTE_CODE_START
+
+;=============================================================================
+
+; remote code ends
+
+;=============================================================================
+
+
+; BUG FIX: do not use FAR here!
+
+InjectRemoteCode PROC C, hProcess : HANDLE, szDllPathName : DWORD
+
+  
+
+INVOKE GetModuleHandleA, offset szKernel32
+
+.IF eax
+
+mov hmodKernel32, eax
+
+.ELSE
+
+mov eax, 0
+
+ret
+
+.ENDIF
+
+  
+
+INVOKE GetProcAddress, hmodKernel32, addr szGetProcAddress
+
+mov lpGetProcAddress, eax
+
+  
+
+INVOKE GetProcAddress, hmodKernel32, addr szLoadLibraryA
+
+mov lpLoadLibraryA, eax
+
+  
+
+INVOKE VirtualAllocEx,hProcess,NULL,REMOTE_CODE_LENGTH,MEM_COMMIT,PAGE_EXECUTE_READWRITE
+
+  
+
+.IF eax
+
+; memory allocation success
+
+  
+
+mov lpRemoteCode,eax
+
+  
+
+; copy the code
+
+INVOKE WriteProcessMemory,hProcess,lpRemoteCode,\
+
+offset REMOTE_CODE_START,REMOTE_CODE_LENGTH,NULL
+
+  
+
+; write function start addresses to the remote memory
+
+INVOKE WriteProcessMemory,hProcess,lpRemoteCode,\
+
+offset lpGetProcAddress,sizeof dword * 2,NULL
+
+  
+
+; write dll path name to the remote memory
+
+INVOKE lstrlen, szDllPathName
+
+mov ecx, eax
+
+inc ecx
+
+  
+
+mov ebx, lpRemoteCode
+
+add ebx, 8
+
+INVOKE WriteProcessMemory,hProcess,ebx,szDllPathName,ecx,NULL
+
+  
+
+mov eax,lpRemoteCode
+
+add eax,offset RemoteThread - offset REMOTE_CODE_START
+
+INVOKE CreateRemoteThread,hProcess,NULL,0,eax,0,0,NULL
+
+  
+
+mov hRemoteThread, eax
+
+.IF hRemoteThread
+
+INVOKE WaitForSingleObject, hRemoteThread, INFINITE
+
+INVOKE CloseHandle, hRemoteThread
+
+.ELSE
+
+jmp errorHere
+
+.ENDIF
+
+  
+
+.ELSE
+
+jmp errorHere
+
+.ENDIF
+
+  
+
+mov eax, 0
+
+  
+
+ret
+
+errorHere:
+
+mov eax, -1
+
+ret
+
+InjectRemoteCode ENDP
+
+
+END
+
+
+上面讲到了CreateremoteThread的做法，可以看到使用CreateRemoteThread是十分复杂的。不过，实际上，我们并不用总是这么做，还有更简单的方法：利用Kernel32.dll中的LoadLibrary这个函数。由于Kernel32.dll在每个EXE中都会被加载，而且由于Kernel32.dll总是第一个被加载的，因此Kernel32.dll的加载地址总是相同的，换句话说，在我们的主程序中Kernel32.dll中的LoadLibrary函数的地址同时也是其他程序中LoadLibrary函数的地址，而LoadLibrary可以加载任意DLL。此外，LoadLibrary只有一个参数，正好和普通线程的要求相同！所以我们只要调用CreateRemoteThread(…, LoadLibrary, DLL_PathName)便可以将Dll Inject到任意进程中。唯一需要注意的就是，由于LoadLibrary是在其他进程中运行，而LoadLibrary的参数必须保存在另外的进程中。怎么做到这一点呢？回忆一下前文提到了两个函数VirtualAllocEx和WriteProcessMemory，正好我们可以利用这两个函数分配一块内存然后把Dll的路径名Copy到该内存中去。
+
+此外，由于DLL中的代码是可以重定位的，因此实际上我们会把API Hook的代码放在DLL中，这样写Hook代码的时候便不用考虑重定位问题。
+4 监视进程的启动
+
+综合上面的内容，我们已经可以挂接单个进程中的指定API了。不过这还不够，我们还需要挂接系统中的所有进程。如果在程序运行之后，不允许新进程的创建，那么挂接所有进程则是非常容易的。Windows操作系统提供了一个CreateToolhelp32Snapshot的API函数。这个API函数创建当前系统的快照（Snapshot），这个快照可以是所有进程的快照（参数是TH32CS_SNAPPROCESS），或者是指定某个进程的所有模块（Module）的快照（参数是TH32CS_SNAPMODULE），等等。通过调用CreateToolhelp32Snapshot函数获得了所有进程之后，便可以依次挂接各个进程。但是事情并非如此简单。用户和操作系统都可以启动新的进程，这样单纯的调用CreateToolhelp32Snapshot函数并不能解决问题。所以需要一种机制来通知本系统新进程的创建和结束。经过查阅相关资料（其实也就是Google啦），发现监视系统进程开始和结束的最好方法是通过DDK中的PsSetCreateProcessNotifyRoutine函数，其原型为：
+
+NTSTATUS PsSetCreateProcessNotifyRoutine(
+
+IN PCREATE_PROCESS_NOTIFY_ROUTINE NotifyRoutine,
+
+IN BOOLEAN Remove
+
+);
+
+
+NotifyRoutine指定了当进程被创建和结束的时候所需要调用的回调函数。则Remove是用来告诉该函数是设置该回调还是移除。NotifyRoutine的类型为PCREATE_PROCESS_NOTIFY_ROUTINE，其定义为：
+
+VOID
+
+(*PCREATE_PROCESS_NOTIFY_ROUTINE) (
+
+IN HANDLE ParentId,
+
+IN HANDLE ProcessId,
+
+IN BOOLEAN Create
+
+);
+
+
+ParentId和ProcessId用来标识进程，Create则是用来表示该进程是正在被创建还是正在被结束。这样，每当进程被创建或者结束的时候，操作系统就会立刻调用NotifyRoutine这个回调函数并正确提供参数。
+
+由于这个函数是由ntdll.dll所输出的，属于Windows的内核空间，因此必须编写一个处于内核模式的驱动程序才可以。但是，至此问题并没有完全解决。内核模式的驱动程序和用户模式的主程序如何通讯呢？这里就需要用到IO请求包IRP（IO Request Packet）。这个IRP的定义为：
+
+typedef struct _CallbackInfo
+
+{
+
+HANDLE hParentId;
+
+HANDLE hProcessId;
+
+BOOLEAN bCreate;
+
+} CALLBACK_INFO, *PCALLBACK_INFO;
+
+
+其字段的意义就和PCREATE_PROCESS_NOTIFY_ROUTINE一样，不再赘述。
+
+用户模式的程序通过DeviceIoControl函数发送IO请求包到内核模式的驱动。内核模式接收到此请求包，并填写数据到用户程序所提供的CALLBACK_INFO缓冲区里。这样通过检查CALLBACK_INFO的值就可以知道hProcessId所指定的进程是正在被创建或者结束了。
+
+虽然有了数据交换的机制，这还是不够。这样只能告诉用户程序究竟是哪一个进程，是创建还是结束，但是无法通知用户程序此事件的发生。通常，通知某个程序某个事件的发生一般的方法是使用事件（Event）。驱动程序创建一个内核事件（Kernel Event）。用户程序打开这个事件用于同步。每当事件发生的时候驱动程序就首先把该事件设置为Signaled，然后再Non-signaled。这样用户程序就可以接收到通知了。但是为什么需要首先设置为Signaled，然后再Non-signaled？因为用户程序没有权限来设置其状态，因此只能由驱动程序来设置，首先设置为Signaled，然后再Non-signaled是唯一的办法。
+
+有了这两种方法，就可以挂接操作系统中的所有进程了。首先，主线程调用CreateToolhelp32Snapshot函数创建系统内所有进程的快照，挂接这些进程，然后启动驱动程序，在主程序中启动一个新线程等待Event来监视新的进程的创建和旧进程的结束。驱动程序的代码和监听的代码可以在http://www.codeproject.com/threads/procmon.asp下载到。
+5 其他问题
+5.1 Unicode
+
+大部分Windows API均有两个版本：Ansi和Unicode。如GetWindowText API实际上只是一个宏，实际上在不同编译选项下对应GetWindowTextA和GetWindowTextW。在NT系统下，GetWindowTextA只是做一个转换，再调用GetWindowTextW，实际的实现在GetWindowTextW中。因此，挂接API必须要Hook两个版本，实际在Hook的时候，我们也可以仿照Windows的做法，让GetWindowTextA做一个简单字符串转换，然后直接调GetWindowTextW即可。可能有朋友要问了，为何不直接Hook GetWindowTextW呢？反正GetWindowTextA要调GetWindowTextW就不用Hook GetWindowTextA了嘛。不过实际上，因为GetWindowTextA和GetWindowTextW在同一个DLL中，他们的调用很有可能并不是通过IAT来，而是直接调用的关系，所以GetWindowTextA会绕过我们的Hook机制而直接调到原始的GetWindowTextW，这不是我们希望看到的，所以两个版本保险起见都应该Hook。
+5.2 IPC
+
+由于Hook的API代码位于某个DLL中，这个DLL处于不同的进程，因此需要用到IPC机制在主程序和其他被Hook的进程进行通讯。不同进程之间的通讯称之为IPC(Interprocess Communication)，大概的方法有下面几种：
+
+1. Pipe。管道是比较常用的IPC机制，可以传输大量数据，代码写起来也比较方便。管道也可以用于网络间不同计算机通讯，但是有一定限制。
+
+2. Socket。虽然Socket一般用于网络，但是显然也可以用于本机，优点是大家可能对Socket编程比较熟悉，此外可以很容易扩展到网络之间的通讯，基本没有限制，因此也是很不错的选择。
+
+3. Message。消息一般适用于比较简单的通讯，如果要传递数据必须要使用WM_COPYDATA消息。优点是比较简单，但是性能可能无法保证。
+
+4. Shared Segment。也就是共享段。简单来说，就是把EXE/DLL中的某个段标记为共享，这样多个EXE/DLL的实例之间会共享同一块内存，通过读写此块内存便可以互相传递数据，但是同步比较困难。具体做法是：
+
+#pragma bss_seg("shared_bss")
+
+int a;
+
+#pragma bss_seg()
+
+#pragma comment(linker, "/Section:shared_bss,rws")
+
+
+这样，变量a便放在了共享段之中。
+
+5. Memory Mapped File（内存映射文件）。比较简单，但是缺点和Shared Segment类似，无法同步。
+
+6. Event/Semaphore/Mutex。这些只能用于同步，无法传递数据。
+
+7. …还有很多
+
+可以根据自己的情况灵活选用。
+6 总结
+
+API Hook的通常做法如下：
+
+1. 通过全局消息钩子或者驱动程序监视进程启动/结束来挂接系统中所有进程
+
+a. 如果不需要挂接CUI程序则选用全局消息钩子
+
+b. 否则则选用驱动程序
+
+2. 通过全局消息钩子或者远程线程来注入代码到目标进程中
+
+a. 全局消息钩子无需考虑如何加载DLL的问题，系统会自动加载
+
+b. 远程线程一般直接创建线程执行LoadLibrary代码加载DLL，当然也可以执行自己写的汇编代码
+
+3. 通过修改IAT (Import Address Table)中的API地址为自己的函数地址来Hook API。所使用的API是ImageDirectoryEntryToData.
+
+4. 自己编写的API的代码放在DLL中以解决重定位问题（如果用全局消息钩子的话放在DLL是强制要求）
+7 相关参考文献
+
+我当初在写程序和写作本文的时候，参考了下面这些书籍和文章，有兴趣的朋友可以参考一下看看：
+
+Windows核心编程，第22章
+Windows环境下32位汇编语言程序设计，第13章，17章
+API Hooking Revealed, 地址：http://www.codeproject.com/system/hooksys.asp
+Detecting Windows NT/2K process execution, 地址：http://www.codeproject.com/threads/procmon.asp

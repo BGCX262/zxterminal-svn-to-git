@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<NetServer>
+<Network>
+	<ServerPort>10010</ServerPort>
+	<HeartBeat>3000</HeartBeat>
+	<MarketServerHost>127.0.0.1</MarketServerHost>
+	<MarketServerPort>10020</MarketServerPort>
+	<TradeServerHost>127.0.0.1</TradeServerHost>
+	<TradeServerPort>10030</TradeServerPort>
+	<Encrypt>0</Encrypt>
+	<CRC>1</CRC>
+	<Zip>0</Zip>
+	<Version>1</Version>
+</Network>
+
+<Database>
+	<DBHost>localhost</DBHost>
+	<DBName>netdb</DBName>
+	<DBUser>root</DBUser>
+	<DBPass>111111</DBPass>
+	<DBPort>3066</DBPort>
+</Database>
+
+<Log>
+	<Path>./log_manageserver.txt</Path>
+	<Level>debug|info|warning|trace</Level>
+	<Flag>file</Flag>
+</Log>
+</NetServer>

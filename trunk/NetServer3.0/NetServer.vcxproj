@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>./bin/release/</OutDir>
+    <IntDir>./obj/release/</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>./bin/debug/</OutDir>
+    <IntDir>./obj/debug/</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>$(IntDir)NetServer.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>D:\boost\include;./</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\NetServer.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(IntDir)NetServer.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)NetServer.exe</OutputFile>
+      <AdditionalDependencies>MapXReplace.lib;libprotobuf.lib;Ws2_32.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/boost/lib;./lib/release</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
+    </Link>
+    <Xdcmake>
+      <OutputFile>$(IntDir)$(TargetName).xml</OutputFile>
+    </Xdcmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_32BIT_TIME_T;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>$(IntDir)NetServer.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>D:\boost\include;./</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\NetServer.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(IntDir)NetServer.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)NetServer.exe</OutputFile>
+      <AdditionalDependencies>MapXReplace.lib;libprotobuf.lib;Ws2_32.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/boost/lib;./lib/debug</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
+    </Link>
+    <Xdcmake>
+      <OutputFile>$(IntDir)$(TargetName).xml</OutputFile>
+    </Xdcmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ACMThread.cpp" />
+    <ClCompile Include="ado2.cpp" />
+    <ClCompile Include="BaseEquipment.cpp" />
+    <ClCompile Include="BaseNetAgreement.cpp" />
+    <ClCompile Include="ClientManager.cpp" />
+    <ClCompile Include="CommandProcessThread.cpp" />
+    <ClCompile Include="GPSDataProcessThread.cpp" />
+    <ClCompile Include="zxArea.cpp" />
+    <ClCompile Include="zxDBHelper.cpp" />
+    <ClCompile Include="DBWork.cpp" />
+    <ClCompile Include="DoUserEvent.cpp" />
+    <ClCompile Include="EquimentList.cpp" />
+    <ClCompile Include="EquipmentManager.cpp" />
+    <ClCompile Include="GmemoryDataManager.cpp" />
+    <ClCompile Include="GTQEquipment.cpp" />
+    <ClCompile Include="IOCPBuff.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Mapx.cpp" />
+    <ClCompile Include="MemoryPool.cpp" />
+    <ClCompile Include="msg.pb.cc" />
+    <ClCompile Include="MTGPSEquipment.cpp" />
+    <ClCompile Include="MTJJAEquipment.cpp" />
+    <ClCompile Include="Net.cpp" />
+    <ClCompile Include="NetAgreement.cpp" />
+    <ClCompile Include="NetEquipment.cpp" />
+    <ClCompile Include="NetNode.cpp" />
+    <ClCompile Include="NetReadThread.cpp" />
+    <ClCompile Include="NetServer.cpp" />
+    <ClCompile Include="NetServerDlg.cpp" />
+    <ClCompile Include="NetWorkThread.cpp" />
+    <ClCompile Include="SocketService.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="SystemInfo.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="ThreadMsgManager.cpp" />
+    <ClCompile Include="TQEquipment.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NetServer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ACMThread.h" />
+    <ClInclude Include="ado2.h" />
+    <ClInclude Include="BaseEquipment.h" />
+    <ClInclude Include="BaseNetAgreement.h" />
+    <ClInclude Include="ClientManager.h" />
+    <ClInclude Include="CommandProcessThread.h" />
+    <ClInclude Include="CommField.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="controlled_module.hpp" />
+    <ClInclude Include="controlled_module_ex.hpp" />
+    <ClInclude Include="GPSDataProcessThread.h" />
+    <ClInclude Include="janitor.hpp" />
+    <ClInclude Include="MapXReplace.h" />
+    <ClInclude Include="thread.hpp" />
+    <ClInclude Include="zxArea.h" />
+    <ClInclude Include="zxDBHelper.h" />
+    <ClInclude Include="DBWork.h" />
+    <ClInclude Include="DoUserEvent.h" />
+    <ClInclude Include="EquimentList.h" />
+    <ClInclude Include="EquipmentManager.h" />
+    <ClInclude Include="GmemoryDataManager.h" />
+    <ClInclude Include="GpsFiled.h" />
+    <ClInclude Include="GTQEquipment.h" />
+    <ClInclude Include="GuardFiled.h" />
+    <ClInclude Include="HeadFile.h" />
+    <ClInclude Include="IOCPBuff.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Mapx.h" />
+    <ClInclude Include="MemoryPool.h" />
+    <ClInclude Include="msg.pb.h" />
+    <ClInclude Include="MTGPSEquipment.h" />
+    <ClInclude Include="MTJJAEquipment.h" />
+    <ClInclude Include="Net.h" />
+    <ClInclude Include="NetAgreement.h" />
+    <ClInclude Include="NetEquipment.h" />
+    <ClInclude Include="NetField.h" />
+    <ClInclude Include="NetNode.h" />
+    <ClInclude Include="NetReadThread.h" />
+    <ClInclude Include="NetServer.h" />
+    <ClInclude Include="NetServerDlg.h" />
+    <ClInclude Include="NetWorkThread.h" />
+    <ClInclude Include="otlv4.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ReturnNumber.h" />
+    <ClInclude Include="SocketService.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="SystemInfo.h" />
+    <ClInclude Include="Thread.h" />
+    <ClInclude Include="ThreadMsgManager.h" />
+    <ClInclude Include="TQEquipment.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Net.ico" />
+    <CustomBuild Include="res\NetServer.ico" />
+    <CustomBuild Include="res\NetServer.rc2">
+      <FileType>RC</FileType>
+    </CustomBuild>
+    <CustomBuild Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="NetServer.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

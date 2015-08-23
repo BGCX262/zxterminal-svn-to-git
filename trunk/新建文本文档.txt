@@ -1,0 +1,15 @@
+http://stackoverflow.com/questions/8785949/netty-channel-closed-detection
+
+http://stackoverflow.com/questions/19739054/whats-the-best-way-to-reconnect-after-connection-closed-in-netty
+
+http://stackoverflow.com/questions/17487799/netty-channel-write-fail-to-send-the-data-to-the-client
+
+http://stackoverflow.com/questions/10988727/netty-clientbootstrap-reconnect-to-another-server
+
+https://github.com/netty/netty/blob/master/example/src/main/java/io/netty/example/uptime/UptimeClientHandler.java
+
+http://stackoverflow.com/questions/20868351/how-to-reconnect-after-the-connection-becomes-inactive-using-netty-4-0
+
+http://stackoverflow.com/questions/19325058/reconnect-whilst-keeping-state-with-netty-4
+
+http://vanadiumlin.iteye.com/blog/1276757

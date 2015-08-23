@@ -1,0 +1,219 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: NetServer - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Release/NetServer.res" /d "NDEBUG" /d "_AFXDLL" "J:\新建文件夹\NetServer\NetServer.rc"" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58B.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Release/" /Fp"Release/NetServer.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"J:\新建文件夹\NetServer\ado2.cpp"
+"J:\新建文件夹\NetServer\BaseEquipment.cpp"
+"J:\新建文件夹\NetServer\BaseNetAgreement.cpp"
+"J:\新建文件夹\NetServer\ClientManager.cpp"
+"J:\新建文件夹\NetServer\DBWork.cpp"
+"J:\新建文件夹\NetServer\DoUserEvent.cpp"
+"J:\新建文件夹\NetServer\EquimentList.cpp"
+"J:\新建文件夹\NetServer\EquipmentManager.cpp"
+"J:\新建文件夹\NetServer\GmemoryDataManager.cpp"
+"J:\新建文件夹\NetServer\GTQEquipment.cpp"
+"J:\新建文件夹\NetServer\IOCPBuff.cpp"
+"J:\新建文件夹\NetServer\Log.cpp"
+"J:\新建文件夹\NetServer\MemoryPool.cpp"
+"J:\新建文件夹\NetServer\MTGPSEquipment.cpp"
+"J:\新建文件夹\NetServer\MTJJAEquipment.cpp"
+"J:\新建文件夹\NetServer\Net.cpp"
+"J:\新建文件夹\NetServer\NetAgreement.cpp"
+"J:\新建文件夹\NetServer\NetEquipment.cpp"
+"J:\新建文件夹\NetServer\NetNode.cpp"
+"J:\新建文件夹\NetServer\NetReadThread.cpp"
+"J:\新建文件夹\NetServer\NetServer.cpp"
+"J:\新建文件夹\NetServer\NetServerDlg.cpp"
+"J:\新建文件夹\NetServer\NetWorkThread.cpp"
+"J:\新建文件夹\NetServer\SocketService.cpp"
+"J:\新建文件夹\NetServer\SystemInfo.cpp"
+"J:\新建文件夹\NetServer\Thread.cpp"
+"J:\新建文件夹\NetServer\ThreadMsgManager.cpp"
+"J:\新建文件夹\NetServer\TQEquipment.cpp"
+"J:\新建文件夹\NetServer\WorkNetData.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58B.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58C.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Release/" /Fp"Release/NetServer.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"J:\新建文件夹\NetServer\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58C.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58D.tmp" with contents
+[
+Ws2_32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/NetServer.pdb" /machine:I386 /out:"Release/NetServer.exe" 
+".\Release\ado2.obj"
+".\Release\BaseEquipment.obj"
+".\Release\BaseNetAgreement.obj"
+".\Release\ClientManager.obj"
+".\Release\DBWork.obj"
+".\Release\DoUserEvent.obj"
+".\Release\EquimentList.obj"
+".\Release\EquipmentManager.obj"
+".\Release\GmemoryDataManager.obj"
+".\Release\GTQEquipment.obj"
+".\Release\IOCPBuff.obj"
+".\Release\Log.obj"
+".\Release\MemoryPool.obj"
+".\Release\MTGPSEquipment.obj"
+".\Release\MTJJAEquipment.obj"
+".\Release\Net.obj"
+".\Release\NetAgreement.obj"
+".\Release\NetEquipment.obj"
+".\Release\NetNode.obj"
+".\Release\NetReadThread.obj"
+".\Release\NetServer.obj"
+".\Release\NetServerDlg.obj"
+".\Release\NetWorkThread.obj"
+".\Release\SocketService.obj"
+".\Release\StdAfx.obj"
+".\Release\SystemInfo.obj"
+".\Release\Thread.obj"
+".\Release\ThreadMsgManager.obj"
+".\Release\TQEquipment.obj"
+".\Release\WorkNetData.obj"
+".\Release\NetServer.res"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58D.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+ado2.cpp
+BaseEquipment.cpp
+BaseNetAgreement.cpp
+ClientManager.cpp
+DBWork.cpp
+J:\新建文件夹\NetServer\DBWork.cpp(726) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(801) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(871) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(911) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(945) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(996) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1044) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1097) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1146) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1183) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1219) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1254) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1434) : warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+J:\新建文件夹\NetServer\DBWork.cpp(1450) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1590) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1634) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1664) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1727) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1840) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(1871) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2210) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2242) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2271) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2304) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2333) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2548) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2577) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2650) : warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+J:\新建文件夹\NetServer\DBWork.cpp(2660) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2782) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(2851) : warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+J:\新建文件夹\NetServer\DBWork.cpp(2860) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3007) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3033) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3073) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3148) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3189) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3217) : warning C4101: 'e' : unreferenced local variable
+J:\新建文件夹\NetServer\DBWork.cpp(3249) : warning C4101: 'e' : unreferenced local variable
+DoUserEvent.cpp
+EquimentList.cpp
+EquipmentManager.cpp
+GmemoryDataManager.cpp
+GTQEquipment.cpp
+J:\新建文件夹\NetServer\GTQEquipment.cpp(788) : warning C4101: 'addr' : unreferenced local variable
+J:\新建文件夹\NetServer\GTQEquipment.cpp(1498) : warning C4101: 'addr' : unreferenced local variable
+IOCPBuff.cpp
+Log.cpp
+MemoryPool.cpp
+MTGPSEquipment.cpp
+MTJJAEquipment.cpp
+J:\新建文件夹\NetServer\MTJJAEquipment.cpp(401) : warning C4065: switch statement contains 'default' but no 'case' labels
+Net.cpp
+NetAgreement.cpp
+NetEquipment.cpp
+NetNode.cpp
+NetReadThread.cpp
+J:\新建文件夹\NetServer\NetReadThread.cpp(67) : warning C4018: '==' : signed/unsigned mismatch
+J:\新建文件夹\NetServer\NetReadThread.cpp(237) : warning C4018: '==' : signed/unsigned mismatch
+J:\新建文件夹\NetServer\NetReadThread.cpp(246) : warning C4018: '==' : signed/unsigned mismatch
+Generating Code...
+J:\新建文件夹\NetServer\NetEquipment.cpp(231) : warning C4715: 'ListenThread' : not all control paths return a value
+J:\新建文件夹\NetServer\NetEquipment.cpp(291) : warning C4715: 'WorkThread' : not all control paths return a value
+J:\新建文件夹\NetServer\GTQEquipment.cpp(1123) : warning C4715: 'CGTQEquipment::GetTaxiData' : not all control paths return a value
+J:\新建文件夹\NetServer\DBWork.cpp(451) : warning C4715: 'CDBWork::GetEquimentInfoID' : not all control paths return a value
+Compiling...
+NetServer.cpp
+NetServerDlg.cpp
+NetWorkThread.cpp
+SocketService.cpp
+SystemInfo.cpp
+Thread.cpp
+ThreadMsgManager.cpp
+TQEquipment.cpp
+J:\新建文件夹\NetServer\TQEquipment.cpp(633) : warning C4101: 'addr' : unreferenced local variable
+J:\新建文件夹\NetServer\TQEquipment.cpp(987) : warning C4101: 'addr' : unreferenced local variable
+WorkNetData.cpp
+Generating Code...
+J:\新建文件夹\NetServer\TQEquipment.cpp(910) : warning C4715: 'CTQEquipment::GetTaxiData' : not all control paths return a value
+Linking...
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58F.tmp" with contents
+[
+/nologo /o"Release/NetServer.bsc" 
+".\Release\StdAfx.sbr"
+".\Release\ado2.sbr"
+".\Release\BaseEquipment.sbr"
+".\Release\BaseNetAgreement.sbr"
+".\Release\ClientManager.sbr"
+".\Release\DBWork.sbr"
+".\Release\DoUserEvent.sbr"
+".\Release\EquimentList.sbr"
+".\Release\EquipmentManager.sbr"
+".\Release\GmemoryDataManager.sbr"
+".\Release\GTQEquipment.sbr"
+".\Release\IOCPBuff.sbr"
+".\Release\Log.sbr"
+".\Release\MemoryPool.sbr"
+".\Release\MTGPSEquipment.sbr"
+".\Release\MTJJAEquipment.sbr"
+".\Release\Net.sbr"
+".\Release\NetAgreement.sbr"
+".\Release\NetEquipment.sbr"
+".\Release\NetNode.sbr"
+".\Release\NetReadThread.sbr"
+".\Release\NetServer.sbr"
+".\Release\NetServerDlg.sbr"
+".\Release\NetWorkThread.sbr"
+".\Release\SocketService.sbr"
+".\Release\SystemInfo.sbr"
+".\Release\Thread.sbr"
+".\Release\ThreadMsgManager.sbr"
+".\Release\TQEquipment.sbr"
+".\Release\WorkNetData.sbr"]
+Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP58F.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+NetServer.exe - 0 error(s), 52 warning(s)
+</pre>
+</body>
+</html>

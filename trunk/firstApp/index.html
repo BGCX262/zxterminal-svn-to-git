@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<label for="username">请输入用户名</label>
+<br>用户名<input name="username" type="text" tabindex="1"/></br>
+<br>密码<input name="password" type="text" autofocus="autofocus" tabindex="2"/></br>
+<br>确认密码<input name="password2" type="text" placeholder="请再次输入密码" tabindex="3"/></br>
+<br>选择配置<input name="upload_config" type="file" tabindex="4"/></br>
+
+<br><input name="submit_register" type="submit" tabindex="5"/></br>
+<br><input name="reset_register" type="reset" tabindex="6"/></br>
+<br><input name="button_func" type="button" tabindex="7" value="提示" /></br>
+
+<br><button name="button_b1"  tabindex="8" value="提示" disabled="disabled">提示</button></br>
+<br>
+    <select size="2">
+        <option name="item1" value="item1">item1</option>
+        <optgroup value="group1" label="group1" disabled="disabled">
+            <option name="item2" value="item2">item2</option>
+            <option name="item3" value="item3">item2</option>
+        </optgroup>
+        <option name="item4" value="item4" selected="selected">item4</option>
+        <option name="item5" value="item5" >item5</option>
+    </select>
+</br>
+
+<br>
+<textarea rows="2" cols="20"  >
+    多行文本示例
+</textarea>
+</br>
+
+<br>
+<button formmethod="get" formtarget="self">GET</button>
+<button formmethod="post" formtarget="new">POST</button>
+</br>
+
+<br>输入图书</br>
+<br>
+<input name="bookname" list="books" type="text" autocomplete="on"/>
+<datalist>
+    <option>book1</option>
+    <option>book2</option>
+    <option>book3</option>
+</datalist>
+</br>
+
+<br>选择日期<input name="select_date" type="date" /></br>
+
+</body>
+</html>

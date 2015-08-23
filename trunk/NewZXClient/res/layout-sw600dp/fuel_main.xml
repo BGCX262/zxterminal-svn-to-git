@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/fuel_main_background" >
+
+    <LinearLayout
+        android:id="@+id/layout_left"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="95dp"
+        android:layout_marginLeft="70dp"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical" >
+            
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/openpit_mining_img" /> 
+            
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/truck_system_img"  />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:id="@+id/input"
+        android:padding="15dp"
+        android:layout_marginLeft="95dp"
+        android:background="@color/num_bg"
+        android:layout_toRightOf="@+id/layout_left"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/carno_edittext"
+                android:layout_width="400dp"
+                android:layout_height="65dp"
+                android:background="@color/white"
+                android:textColor="@color/black"
+                android:gravity="center_vertical"
+                android:hint="@string/car_no"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/clear_car_no_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/carno_edittext"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="-85dp"
+                android:src="@drawable/back_input_imge" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="15dp" >
+
+            <EditText
+                android:id="@+id/volume_edittext"
+                android:layout_width="400dp"
+                android:layout_height="65dp"
+                android:background="@color/white"
+                android:textColor="@color/black"
+                android:gravity="center_vertical"
+                android:hint="@string/fuel_volume"
+                android:textSize="30sp"/>
+
+            <ImageView
+                android:id="@+id/clear_volume_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/volume_edittext"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="-85dp"
+                android:src="@drawable/back_input_imge" />
+        </RelativeLayout>
+
+    </LinearLayout>
+        <include
+            android:layout_marginTop="10dip"
+            android:layout_width="440dp" 
+            android:layout_below="@+id/input"
+            android:layout_alignLeft="@+id/input"
+            android:layout_height="wrap_content"
+            layout="@layout/numeric_keys_layout" />
+
+</RelativeLayout>

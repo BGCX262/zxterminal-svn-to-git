@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=GB2312"/>
+    <title>GPS全球卫星定位  卫星图</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=aABQIAAAAJpZTjuBVgLzFoVDOMhebERQo8-bc7OL_OgIgcQjnLG4KnBfVXRSWardQW8aDt3omSHcHYiHoUrZQXQ"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+map.addControl(new GSmallMapControl());
+
+
+map.setCenter(new GLatLng(31.240842,121.495806),16);
+map.setMapType(G_SATELLITE_MAP);//修改地图类型
+map.openInfoWindow(map.getCenter(),
+                   document.createTextNode("您要找的车在这里"));
+      }
+    }
+
+    //]]>
+    </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <div id="map" style="width: 750px; height: 550px"></div>
+  </body>
+</html>

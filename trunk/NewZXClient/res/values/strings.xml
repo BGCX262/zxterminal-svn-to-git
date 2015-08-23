@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">采矿调度系统</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="out_Mining">露天采矿</string>
+    <string name="truck_system">卡车调度系统</string>
+    <string name="TerminalAccount">终端账号</string>
+    <string name="please_input_true_tel">请输入正确的手机号</string>
+    <string name="speed">34</string>
+    <string name="dust">排土</string>
+    <string name="mine">采矿</string>
+    <string name="production">产量</string>
+    <string name="distance">运距</string>
+    <string name="times">次数</string>
+    <string name="dialog_title">统计单位</string>
+    <string name="material_dialog_title">物料设置</string>
+    <string name="edipper_select_dialog_title">选择电铲</string>
+    <string name="try_again">请重试!</string>
+    <string name="km_h">km/h</string>
+    <string name="gps">GPS</string>
+    <string name="colon">:</string>
+    <string name="message_dialog_title">短消息</string>
+    <string name="output">产量</string>
+    <string name="default_output">45t</string>
+    <string name="check_failed">点检失败，请检查账号！</string>
+    <string name="launcher_title">露天采矿卡车调度系统</string>
+    <string name="real_quit">是否重启终端？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="cancel">取消</string>
+    <string name="load_complete">装载完成</string>
+    <string name="reject_load">拒绝装载</string>
+    <string name="please_select">请选择</string>
+    <string name="exit">退出</string>
+    <string name="complete_reject_tx">是否已完成装载操作?</string>
+    <string name="production_info">生产信息</string>
+    <string name="fuel_confirm">加油确认</string>
+    <string name="car_no">车牌号</string>
+    <string name="fuel_volume">加油量</string>
+    <string name="fuel_submitted">加油单已提交,请等待确认.</string>
+    <string name="fuel_ok">加油单已被确认.</string>
+    <string name="fuel_reject">加油单被否定,请重新输入.</string>
+</resources>

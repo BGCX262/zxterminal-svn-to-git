@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/login_background"
+    android:orientation="vertical" >
+    <TextView 
+        android:id="@+id/launcher_title"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/launcher_title"
+        android:layout_marginTop="120dp"
+        android:textSize="60sp"
+        
+        android:textColor="@color/white"
+        />
+    <ImageButton
+        android:id="@+id/check_ib"
+        android:layout_marginTop="45dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@drawable/check_btn_selector" />
+
+</LinearLayout>

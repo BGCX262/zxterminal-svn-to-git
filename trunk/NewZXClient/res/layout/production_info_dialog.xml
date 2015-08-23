@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layout_times"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车数："
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+
+       <TextView
+           android:id="@+id/run_times"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:text="123"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运距："
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+
+       <TextView
+           android:id="@+id/run_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/layout_mine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="供矿："
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+
+       <TextView
+           android:id="@+id/mine_production"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/layout_non_mine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剥离："
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+
+       <TextView
+           android:id="@+id/non_mine_production"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/layout_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="整改："
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+
+       <TextView
+           android:id="@+id/temp_production"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textColor="@color/black"
+            android:textSize="40sp" /> 
+        
+    </LinearLayout>
+
+
+</LinearLayout>

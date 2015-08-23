@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <array name="material">
+       <item>氧化锡</item>
+       <item>硫化铜</item>
+       <item>硫化锌</item>
+       <item>氧化铁</item>
+       <item>低度矿</item>
+       <item>剥离</item>
+   </array>
+</resources>
